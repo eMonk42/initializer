@@ -2,40 +2,14 @@
 import * as prompt from "prompt-promise";
 import { exec } from "child_process";
 import { readFile, writeFile } from "fs/promises";
-
-const squirrel = `   !!!!
- !!!!!!!!
-!!!!!!!!!!!   O_O
-!!!  !!!!!!! /@ @\\
-      !!!!!! \\ x /
-     !!!!!! / m  !m
-      !!!! / __ |
-      !!!!|/   \\__
-       !!!\\_______\\`;
-const hamster = `     .     .
-    (>\\---/<)
-    ,'     \`.
-   /  q   p  \\
-  (  >(_Y_)<  )
-   >-' \`-' \`-<-.
-  /  _.== ,=.,- \\
- /,    )\`  '(    )
-; \`._.'      \`--<
-:     \        |  )
- \\      )       ;_/
-  \`._ _/_  ___.'-\\\\\\
-    \`--\\\\\\`;
-
-const defaultSettings = {
-  path: "~/developer",
-  github: "https://github.com/gabrielheinrich/typescript-base.git/",
-  repoName: "the-new-folder-you-were-looking-for",
-  configureTSconfig: true,
-  useYarn: true,
-  deleteFoldersOnError: true,
-  openCode: true,
-  useDashR: true,
-};
+import { changeSettings } from "../build/settings.js";
+import {
+  squirrel,
+  hamster,
+  defaultSettings,
+  help,
+  tsconigOverwrite,
+} from "../build/strings.js";
 
 export let userSettings = {
   path: "",
@@ -47,9 +21,6 @@ export let userSettings = {
   openCode: true,
   useDashR: true,
 };
-
-const help =
-  "Welcome to Repo-Intializer!\nHere are some Flags you can use:\n\t-h\tprints this help-instruction\n\t-q\tuses the default settings so no user input is required\n\t-set\tcalls a subprogramm to change your user-settings that are used as default settings then";
 
 const welcome = () => {
   console.log("Welcome to Repo-Initializer!");
@@ -80,15 +51,14 @@ const defaultQuestions = async () => {
     : (userSettings.repoName = repoName.replace(" ", "-"));
 };
 
-let tsconigOverwrite = `echo "{" > tsconfig.json && echo '"compilerOptions": {' >> tsconfig.json && echo '"outDir": "build",' >> tsconfig.json && echo '"watch": true,' >> tsconfig.json && echo '"alwaysStrict":true,' >> tsconfig.json && echo '"sourceMap": true,' >> tsconfig.json && echo '"types": ["node", "jest"]' >> tsconfig.json && echo '},' >> tsconfig.json && echo '"include":[ ' >> tsconfig.json && echo '"src/**/*",' >> tsconfig.json && echo '"src/app/shared/**/*",' >> tsconfig.json && echo '"typings/*.d.ts"' >> tsconfig.json && echo '],' >> tsconfig.json && echo '"exclude":[' >> tsconfig.json && echo '"node_modules",' >> tsconfig.json && echo '"jspm_packages",' >> tsconfig.json && echo '"application",' >> tsconfig.json && echo '"system",' >> tsconfig.json && echo '"dist",' >> tsconfig.json && echo '"build"' >> tsconfig.json && echo ']' >> tsconfig.json && echo '}' >> tsconfig.json &&`;
-
 const initialize = async () => {
   return new Promise((resolve, reject) => {
     console.log(
       `\nInitializing repo '${userSettings.repoName}' in '${userSettings.path}', please stand by...`
     );
+    let tscJson = "";
     userSettings.configureTSconfig !== true
-      ? (tsconigOverwrite = "")
+      ? (tscJson = tsconigOverwrite)
       : tsconigOverwrite;
     let codeCmd = "";
     if (userSettings.openCode && userSettings.useDashR) {
@@ -97,7 +67,7 @@ const initialize = async () => {
       codeCmd = ` && code ../${userSettings.repoName}`;
     }
     const setupProcess = exec(
-      `cd ${userSettings.path} && echo "\npreparing directory..." && git clone ${userSettings.github} ${userSettings.repoName} && echo "git repo cloned..." && cd ${userSettings.repoName} && yarn install --silent && echo "yarn initialized..." && ${tsconigOverwrite} echo "\nAll Tasks executed succsessfully!" && echo "Your Repo is ready to roll!" ${codeCmd}`
+      `cd ${userSettings.path} && echo "\npreparing directory..." && git clone ${userSettings.github} ${userSettings.repoName} && echo "git repo cloned..." && cd ${userSettings.repoName} && yarn install --silent && echo "yarn initialized..." && ${tscJson} echo "\nAll Tasks executed succsessfully!" && echo "Your Repo is ready to roll!" ${codeCmd}`
     );
     setupProcess.stdout.on("data", (data) => {
       console.log(data);
@@ -129,36 +99,6 @@ async function readSettings() {
   }
 }
 
-async function changeSettings(settings) {
-  let yesOrNo = "Yes";
-  console.log("Your current settings are:\n");
-  console.log("Path:\t\t\t" + settings.path + "\n");
-  console.log("GitHub Url:\t\t" + settings.github + "\n");
-  console.log("RepoName:\t\t" + settings.repoName + "\n");
-  settings.configureTSconfig ? (yesOrNo = "Yes") : (yesOrNo = "No");
-  console.log("Change tsconfig.json:\t" + yesOrNo + "\n");
-  settings.useYarn ? (yesOrNo = "Yes") : (yesOrNo = "No");
-  console.log("Run Yarn install:\t" + yesOrNo + "\n");
-  settings.deleteFoldersOnError ? (yesOrNo = "Yes") : (yesOrNo = "No");
-  console.log("Delete Folders on Error:\t" + yesOrNo + "\n");
-  settings.openCode ? (yesOrNo = "Yes") : (yesOrNo = "No");
-  console.log("Open VSCode:\t" + yesOrNo + "\n");
-  settings.useDashR ? (yesOrNo = "Yes") : (yesOrNo = "No");
-  console.log("Invoke VSCode using '-r':\t" + yesOrNo + "\n");
-  let topic = await prompt(
-    "Type the starting letter of the setting you want to change: "
-  );
-}
-
-// path: "",
-// github: "",
-// repoName: "",
-// configureTSconfig: true,
-// useYarn: true,
-// deleteFoldersOnError: true,
-// openCode: true,
-// useDashR: true
-
 async function main() {
   //flag set
   if (process.argv[process.argv.length - 1].substr(0, 1) === "-") {
@@ -178,6 +118,7 @@ async function main() {
     } else if (process.argv[process.argv.length - 1] === "-set") {
       //change settings
       userSettings = await readSettings();
+      await changeSettings(userSettings);
     } else {
       //exits due to unknown flag
       console.log("Unkown flag: " + process.argv[process.argv.length - 1]);
