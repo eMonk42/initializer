@@ -69,8 +69,10 @@ const initialize = async () => {
     } else if (userSettings.openCode) {
       codeCmd = ` && code ../${userSettings.repoName}`;
     }
+    let yarnInstall = `&& yarn install --silent && echo "yarn initialized..."`;
+    userSettings.useYarn ? yarnInstall : (yarnInstall = "");
     const setupProcess = exec(
-      `cd ${userSettings.path} && echo "\npreparing directory..." && git clone ${userSettings.github} ${userSettings.repoName} && echo "git repo cloned..." && cd ${userSettings.repoName} && yarn install --silent && echo "yarn initialized..." && ${tscJson} echo "\nAll Tasks executed succsessfully!" && echo "Your Repo is ready to roll!" ${codeCmd}`
+      `cd ${userSettings.path} && echo "\npreparing directory..." && git clone ${userSettings.github} ${userSettings.repoName} && echo "git repo cloned..." && cd ${userSettings.repoName} ${yarnInstall} && ${tscJson} echo "\nAll Tasks executed succsessfully!" && echo "Your Repo is ready to roll!" ${codeCmd}`
     );
     setupProcess.stdout.on("data", (data) => {
       console.log(data);
@@ -135,8 +137,8 @@ async function main() {
     } else if (process.argv[process.argv.length - 1] === "-set") {
       //change settings
       userSettings = await readSettings();
-      checkNameOriginal(userSettings);
       await changeSettings(userSettings);
+      checkNameOriginal(userSettings);
     } else {
       //exits due to unknown flag
       console.log("Unkown flag: " + process.argv[process.argv.length - 1]);
