@@ -35,14 +35,17 @@ const defaultQuestions = async () => {
     "\nRepo-URL you want to clone (default: typescript-base): "
   );
   github === "exit" ? process.exit(0) : github;
+  github === "e" ? process.exit(0) : github;
   let path = await prompt(
     "Choose current directory as parent directory? (y: yes | n: ~/developer): "
   );
   path === "exit" ? process.exit(0) : path;
+  path === "e" ? process.exit(0) : path;
   let repoName = await prompt(
     "Wich name should the locally created repo have? "
   );
   repoName === "exit" ? process.exit(0) : repoName;
+  repoName === "e" ? process.exit(0) : repoName;
   github !== "" ? (userSettings.github = github) : github;
   path !== "y" ? path : (userSettings.path = process.cwd());
 
@@ -57,7 +60,7 @@ const initialize = async () => {
       `\nInitializing repo '${userSettings.repoName}' in '${userSettings.path}', please stand by...`
     );
     let tscJson = "";
-    userSettings.configureTSconfig !== true
+    userSettings.configureTSconfig === true
       ? (tscJson = tsconigOverwrite)
       : tsconigOverwrite;
     let codeCmd = "";
@@ -99,6 +102,19 @@ async function readSettings() {
   }
 }
 
+function checkNameOriginal(settings) {
+  if (settings.repoName === "Original Git-name") {
+    let gitNameArr = settings.github.split("/");
+    if (gitNameArr[gitNameArr.length - 1].indexOf(".") != -1) {
+      settings.reponame = gitNameArr[gitNameArr.length - 1];
+      console.log("No point: " + settings.repoName);
+    } else {
+      gitNameArr = gitNameArr[gitNameArr.length - 2].split(".");
+      settings.repoName = gitNameArr[0];
+    }
+  }
+}
+
 async function main() {
   //flag set
   if (process.argv[process.argv.length - 1].substr(0, 1) === "-") {
@@ -108,6 +124,7 @@ async function main() {
     } else if (process.argv[process.argv.length - 1] === "-q") {
       //no prompts here
       userSettings = await readSettings();
+      checkNameOriginal(userSettings);
       try {
         welcome();
         await initialize();
@@ -118,6 +135,7 @@ async function main() {
     } else if (process.argv[process.argv.length - 1] === "-set") {
       //change settings
       userSettings = await readSettings();
+      checkNameOriginal(userSettings);
       await changeSettings(userSettings);
     } else {
       //exits due to unknown flag
@@ -127,6 +145,7 @@ async function main() {
     //no flags set
   } else {
     userSettings = await readSettings();
+    checkNameOriginal(userSettings);
     try {
       welcome();
       await defaultQuestions();

@@ -31,7 +31,7 @@ export async function changeSettings(settings) {
         "\nEnter a new path as your default parent-directory: "
       );
       if (newPath !== "") {
-        settings.github = newPath;
+        settings.path = newPath;
         writeFile("/home/user/.go-init.json", JSON.stringify(settings), {
           encoding: "utf-8",
         });
@@ -56,9 +56,9 @@ export async function changeSettings(settings) {
       }
     } else if (topic === "r" || topic === "R") {
       const newName = await prompt(
-        "\nEnter a new default name for new repositories: "
+        "\nEnter a new default name for new repositories (type 'o' for using the original name as default): "
       );
-      if (newName !== "") {
+      if (newName !== "" && newName !== "o") {
         settings.repoName = newName;
         writeFile("/home/user/.go-init.json", JSON.stringify(settings), {
           encoding: "utf-8",
@@ -67,6 +67,15 @@ export async function changeSettings(settings) {
           "'" +
             settings.RepoName +
             "' succsessfully saved as default name for new repositories!\n"
+        );
+        showSettings(settings);
+      } else if (newName === "o") {
+        settings.repoName = "Original Git-name";
+        writeFile("/home/user/.go-init.json", JSON.stringify(settings), {
+          encoding: "utf-8",
+        });
+        console.log(
+          "Using the original name succsessfully saved as default for new repositories!\n"
         );
         showSettings(settings);
       }

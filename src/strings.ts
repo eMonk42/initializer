@@ -24,7 +24,7 @@ export const hamster = `     .     .
 export const defaultSettings = {
   path: "~/developer",
   github: "https://github.com/gabrielheinrich/typescript-base.git/",
-  repoName: "the-new-folder-you-were-looking-for",
+  repoName: "Original Git-name",
   configureTSconfig: true,
   useYarn: true,
   deleteFoldersOnError: true,
