@@ -26,7 +26,7 @@ const welcome = () => {
   console.log("Welcome to Repo-Initializer!");
   Math.random() >= 0.5 ? console.log(squirrel) : console.log(hamster);
   console.log(
-    "Let's make starting new projects a snap!\nFind out about flags and settings using the '-h' -flag\nYou can stop the programm by typing 'exit' in any of the prompts."
+    "Let's make starting new projects a snap!\nFind out about flags and settings using the '-h' -flag\nYou can stop the programm by typing 'exit' or 'e' in any of the prompts."
   );
 };
 

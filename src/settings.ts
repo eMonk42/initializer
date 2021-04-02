@@ -1,4 +1,4 @@
-import { readFile, writeFile } from "fs/promises";
+import { writeFile } from "fs/promises";
 import * as prompt from "prompt-promise";
 
 export function showSettings(settings) {
