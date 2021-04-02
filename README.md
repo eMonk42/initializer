@@ -12,6 +12,7 @@
     - Clone this Repository
     - cd into it
     - run 'yarn install' or 'npm install'
+    - run 'yarn build'
     - run 'sudo npm install -g .' or 'sudo yarn add global $(pwd)'
 
     That's it you now can run it from anywhere using the command 'go-init'
