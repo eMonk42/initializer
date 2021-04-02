@@ -1,6 +1,6 @@
 # Repo-Initializer
 
-    A neat program to automate setting up a new Git Repository
+    A neat tool to automate setting up a new Git Repository making use boilerplates even more comfortable.
 
 ## Requirements:
 
