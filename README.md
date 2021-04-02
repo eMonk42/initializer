@@ -4,11 +4,7 @@
 
 ## Requirements:
 
-    Bash, Node, npm or yarn
-
-## Supported Tools (so far):
-
-    VS Code, npm, Yarn, Typescript
+    Bash, Node, npm or yarn, VS Code (optional)
 
 ## How to set up
 
