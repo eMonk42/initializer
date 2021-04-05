@@ -16,6 +16,9 @@
     - run 'yarn build'
     - run 'sudo npm install -g .' or 'sudo yarn global add $(pwd)'
 
+    Check if everything worked out by using 'which go-init'. When you are given a path you are ready to roll.
+    If not something went wrong und you may try again.
+
     That's it you now can run it from anywhere using the command 'go-init'
 
     When you desire to change the command to something else you can do so by changing
