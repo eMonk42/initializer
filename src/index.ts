@@ -109,7 +109,7 @@ function checkNameOriginal(settings) {
     let gitNameArr = settings.github.split("/");
     if (gitNameArr[gitNameArr.length - 1].indexOf(".") != -1) {
       settings.reponame = gitNameArr[gitNameArr.length - 1];
-      console.log("No point: " + settings.repoName);
+      //console.log("No point: " + settings.repoName);
     } else {
       gitNameArr = gitNameArr[gitNameArr.length - 2].split(".");
       settings.repoName = gitNameArr[0];
@@ -138,7 +138,7 @@ async function main() {
       //change settings
       userSettings = await readSettings();
       await changeSettings(userSettings);
-      checkNameOriginal(userSettings);
+      //checkNameOriginal(userSettings);
     } else {
       //exits due to unknown flag
       console.log("Unkown flag: " + process.argv[process.argv.length - 1]);
