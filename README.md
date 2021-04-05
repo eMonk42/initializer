@@ -11,6 +11,7 @@
 
     - Clone this Repository
     - cd into it
+    - run 'git checkout develop' to switch to develop-branch
     - run 'yarn install' or 'npm install'
     - run 'yarn build'
     - run 'sudo npm install -g .' or 'sudo yarn global add $(pwd)'
