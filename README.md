@@ -11,7 +11,6 @@
 
     - Clone this Repository
     - cd into it
-    - run 'git checkout develop' to switch to develop-branch
     - run 'yarn install' or 'npm install'
     - run 'yarn build'
     - run 'sudo npm install -g .' or 'sudo yarn global add $(pwd)'
@@ -29,12 +28,14 @@
     You can run Repo-Initializer just by it's command 'go-init' and then answering the prompts.
     Just hitting 'Enter' will use the defualt setting. 'exit' or 'e' stops the programm.
 
+![go-init_start](assets/go-init_start.jpg)
+
     Use the '-h' flag for getting to view the help-page.
 
     To configure the settings use the '-set'-flag like so:
         'go-init -set'
     You will be able to change the default settings by following the instructions.
 
-    When you already checked the default settings you can simply use the '-q'-flag for a
-    quick-installation. This will run the programmm without the need for an input, just relying
-    on the settings.
+![go-init_settings](assets/go-init_settings.jpg)
+
+    When you already checked the default settings you can simply use the '-q'-flag for a quick-installation. This will run the programmm without the need for an input, just relying on the settings.
