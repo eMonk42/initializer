@@ -15,7 +15,8 @@
     - run 'yarn build'
     - run 'sudo npm install -g .' or 'sudo yarn global add $(pwd)'
 
-    Check if everything worked out by using 'which go-init'. When you are given a path you are ready to roll.
+    Check if everything worked out by using 'which go-init'.
+    When you are given a path you are ready to roll.
     If not something went wrong und you may try again.
 
     That's it you now can run it from anywhere using the command 'go-init'
@@ -38,5 +39,6 @@
 
 ![go-init_settings](assets/go-init_settings.jpg)
 
-    When you already checked the default settings you can simply use the '-q'-flag for a quick-installation.
+    When you already checked the default settings you can simply use the
+    '-q'-flag for a quick-installation.
     This will run the programmm without the need for an input, just relying on the settings.
