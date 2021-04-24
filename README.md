@@ -38,4 +38,5 @@
 
 ![go-init_settings](assets/go-init_settings.jpg)
 
-    When you already checked the default settings you can simply use the '-q'-flag for a quick-installation. This will run the programmm without the need for an input, just relying on the settings.
+    When you already checked the default settings you can simply use the '-q'-flag for a quick-installation.
+    This will run the programmm without the need for an input, just relying on the settings.
